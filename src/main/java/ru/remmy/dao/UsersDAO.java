@@ -1,6 +1,7 @@
 package ru.remmy.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -40,20 +41,24 @@ public class UsersDAO implements IUsersDAO {
 
     @Override
     public User getUser(String id) {
+        try{
             User user = (User)templateUser.queryForObject(
                     "SELECT * FROM users WHERE id = '" + id + "'",
                     new RowMapper<User>() {
                         public User mapRow(ResultSet rs, int rowNum)
                                 throws SQLException {
-                            User User = new User();
-                            User.setName(rs.getString("name"));
-                            User.setId(rs.getInt("id"));
-                            return User;
+                                User User = new User();
+                                User.setName(rs.getString("name"));
+                                User.setId(rs.getInt("id"));
+                                return User;
                         }
                     });
 
             return user;
+        } catch (EmptyResultDataAccessException e) {
+        return null;
     }
+}
 
     @Override
     public User updateUser(User user) {

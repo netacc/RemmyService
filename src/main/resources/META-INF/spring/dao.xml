@@ -21,10 +21,10 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <!--<property name="url" value="jdbc:mysql://localhost:3306/remmydb?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;autocommit=1"/>-->
-        <property name="url" value="jdbc:mysql://localhost:3306/reviewer?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;autocommit=1"/>
-        <!--<property name="username" value="remmy" />-->
-        <property name="username" value="root" />
+        <property name="url" value="jdbc:mysql://localhost:3306/remmydb?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;autocommit=1"/>
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/reviewer?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;autocommit=1"/>-->
+        <property name="username" value="remmy" />
+        <!--<property name="username" value="root" />-->
         <property name="password" value="iumjFG5C" />
     </bean>
 

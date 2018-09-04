@@ -1,5 +1,6 @@
 package ru.remmy.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -58,6 +59,7 @@ public class TasksDAO implements ITasksDAO {
 
     @Override
     public Task getTask(String id) {
+        try {
         Task task = (Task)templateTask.queryForObject(
                 "select tasks.*, users.name from tasks, users where doerId = users.id and tasks.id = '" + id + "'",
                 new RowMapper<Task>() {
@@ -79,6 +81,9 @@ public class TasksDAO implements ITasksDAO {
                 });
 
         return task;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
