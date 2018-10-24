@@ -7,6 +7,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import org.codehaus.jackson.ObjectCodec;
 
 public class CustomObjectMapper extends ObjectMapper {
 
@@ -20,5 +21,4 @@ public class CustomObjectMapper extends ObjectMapper {
         super.setAnnotationIntrospector(pair);
         super.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
     }
-
 }
