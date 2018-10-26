@@ -11,7 +11,10 @@ import java.util.ArrayList;
 public class DAOUser implements IUsersDAO {
 
     public UsersEntity getUsers(String id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(UsersEntity.class, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        UsersEntity user = session.get(UsersEntity.class, id);
+        session.close();
+        return user;
     }
 
     public void createUsers(UsersEntity user) {
@@ -39,6 +42,9 @@ public class DAOUser implements IUsersDAO {
     }
 
     public UsersList getUsersList() {
-        return new UsersList((ArrayList<UsersEntity>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM UsersEntity").list());
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        UsersList list = new UsersList((ArrayList<UsersEntity>) session.createQuery("FROM UsersEntity").list());
+        session.close();
+        return list;
     }
 }

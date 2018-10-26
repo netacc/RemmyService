@@ -12,7 +12,9 @@ import java.util.ArrayList;
 public class DAOTask implements ITasksDAO {
 
     public TasksEntity findTasksById(String id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(TasksEntity.class, Integer.parseInt(id));
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        TasksEntity task = session.get(TasksEntity.class, Integer.parseInt(id));
+        return task;
     }
 
     public void createTasks(TasksEntity task) {
@@ -40,8 +42,10 @@ public class DAOTask implements ITasksDAO {
     }
 
     public TasksList getTaskList() {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         String query = "from TasksEntity ";
-        ArrayList<TasksEntity> all = (ArrayList<TasksEntity>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery(query).list();
+        ArrayList<TasksEntity> all = (ArrayList<TasksEntity>) session.createQuery(query).list();
+        session.close();
         return new TasksList(all);
     }
 }
