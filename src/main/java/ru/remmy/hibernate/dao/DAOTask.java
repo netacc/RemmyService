@@ -1,23 +1,42 @@
 package ru.remmy.hibernate.dao;
-
+//https://habr.com/post/271115/
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import ru.remmy.hibernate.entities.TasksEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.remmy.hibernate.entities.*;
 import ru.remmy.hibernate.idao.ITasksDAO;
 import ru.remmy.hibernate.utils.HibernateSessionFactoryUtil;
 
-import java.util.ArrayList;
-
+import java.util.List;
 
 public class DAOTask implements ITasksDAO {
 
-    public TasksEntity findTasksById(String id) {
+    @Autowired
+    private DAOUser userDao;
+
+    public List<Task> getTasksByUserName(String userName) {
+        List<Task> tasksList = null;
+        try {
+            User user = userDao.getUsersByName(userName);
+            Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.refresh(user);
+            //tasksList = user.getTask();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        return tasksList;
+    }
+
+    public Task findTasksById(String id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        TasksEntity task = session.get(TasksEntity.class, Integer.parseInt(id));
+        Task task = (Task) session.load(Task.class, Integer.parseInt(id));
         return task;
     }
 
-    public void createTasks(TasksEntity task) {
+    public void createTasks(Task task) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(task);
@@ -25,7 +44,7 @@ public class DAOTask implements ITasksDAO {
         session.close();
     }
 
-    public void updateTasks(TasksEntity task) {
+    public void updateTasks(Task task) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.update(task);
@@ -43,8 +62,7 @@ public class DAOTask implements ITasksDAO {
 
     public TasksList getTaskList() {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        String query = "from TasksEntity ";
-        ArrayList<TasksEntity> all = (ArrayList<TasksEntity>) session.createQuery(query).list();
+        TasksList all = (TasksList) session.createQuery("from Task").list();
         session.close();
         return new TasksList(all);
     }

@@ -1,8 +1,8 @@
 package ru.remmy.hibernate.services;
 
 import ru.remmy.hibernate.dao.DAOUser;
+import ru.remmy.hibernate.entities.*;
 import ru.remmy.hibernate.idao.IUsersDAO;
-import ru.remmy.hibernate.entities.UsersEntity;
 import ru.remmy.hibernate.dao.UsersList;
 
 public class UserServices {
@@ -11,11 +11,11 @@ public class UserServices {
 
     public UserServices() {}
 
-    public UsersEntity getUsers(String id) {
+    public User getUsers(String id) {
         return usersDao.getUsers(id);
     }
 
-    public void createUsers(UsersEntity user) {
+    public void createUsers(User user) {
         usersDao.createUsers(user);
     }
 
@@ -23,7 +23,7 @@ public class UserServices {
         usersDao.deleteUsersById(id);
     }
 
-    public void updateUsers(UsersEntity user) {
+    public void updateUsers(User user) {
         usersDao.updateUsers(user);
     }
 

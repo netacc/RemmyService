@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import ru.remmy.hibernate.dao.TasksList;
-import ru.remmy.hibernate.entities.UsersEntity;
+import ru.remmy.hibernate.entities.*;
 
 public class HibernateSessionFactoryUtil {
 
@@ -18,7 +18,7 @@ public class HibernateSessionFactoryUtil {
             try {
                 Configuration configuration =  new Configuration();
                 configuration.configure("hibernate.cfg.xml");
-                configuration.addAnnotatedClass(UsersEntity.class);
+                configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(TasksList.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

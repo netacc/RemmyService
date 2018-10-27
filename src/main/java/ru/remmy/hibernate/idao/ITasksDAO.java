@@ -1,12 +1,12 @@
 package ru.remmy.hibernate.idao;
 
 import ru.remmy.hibernate.dao.TasksList;
-import ru.remmy.hibernate.entities.TasksEntity;
+import ru.remmy.hibernate.entities.*;
 
 public interface ITasksDAO {
-    TasksEntity findTasksById(String id);
-    void createTasks(TasksEntity task);
-    void updateTasks(TasksEntity task);
+    Task findTasksById(String id);
+    void createTasks(Task task);
+    void updateTasks(Task task);
     void deleteTasksById(String id);
     TasksList getTaskList();
 }

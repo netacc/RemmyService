@@ -1,37 +1,39 @@
 package ru.remmy.hibernate.entities;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tasks", schema = "test", catalog = "")
-public class TasksEntity {
-    private int id;
-    private int doerId;
+public class Task {
+    private long id;
+    private long doerId;
     private String doerName;
     private String header;
     private String text;
-    private String taskDate;
+    private Date taskDate;
     private String doerInitials;
-    private Integer status;
+    private int status;
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "doerId", nullable = false)
-    public int getDoerId() {
+    public long getDoerId() {
         return doerId;
     }
 
-    public void setDoerId(int doerId) {
+    public void setDoerId(long doerId) {
         this.doerId = doerId;
     }
 
@@ -46,7 +48,7 @@ public class TasksEntity {
     }
 
     @Basic
-    @Column(name = "header", nullable = true, length = 256)
+    @Column(name = "header", nullable = true, length = 64)
     public String getHeader() {
         return header;
     }
@@ -56,7 +58,7 @@ public class TasksEntity {
     }
 
     @Basic
-    @Column(name = "text", nullable = true, length = 64)
+    @Column(name = "text", nullable = true, length = 256)
     public String getText() {
         return text;
     }
@@ -66,12 +68,12 @@ public class TasksEntity {
     }
 
     @Basic
-    @Column(name = "taskDate", nullable = true, length = 45)
-    public String getTaskDate() {
+    @Column(name = "taskDate", nullable = true)
+    public Date getTaskDate() {
         return taskDate;
     }
 
-    public void setTaskDate(String taskDate) {
+    public void setTaskDate(Date taskDate) {
         this.taskDate = taskDate;
     }
 
@@ -87,11 +89,11 @@ public class TasksEntity {
 
     @Basic
     @Column(name = "status", nullable = true)
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -99,15 +101,15 @@ public class TasksEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TasksEntity that = (TasksEntity) o;
-        return id == that.id &&
-                doerId == that.doerId &&
-                Objects.equals(doerName, that.doerName) &&
-                Objects.equals(header, that.header) &&
-                Objects.equals(text, that.text) &&
-                Objects.equals(taskDate, that.taskDate) &&
-                Objects.equals(doerInitials, that.doerInitials) &&
-                Objects.equals(status, that.status);
+        Task task = (Task) o;
+        return Objects.equals(id, task.id) &&
+                Objects.equals(doerId, task.doerId) &&
+                Objects.equals(doerName, task.doerName) &&
+                Objects.equals(header, task.header) &&
+                Objects.equals(text, task.text) &&
+                Objects.equals(taskDate, task.taskDate) &&
+                Objects.equals(doerInitials, task.doerInitials) &&
+                Objects.equals(status, task.status);
     }
 
     @Override
