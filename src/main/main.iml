@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="web" name="Web">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/webapp/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Dao" removed="false">
+          <dependency>fileset</dependency>
+          <file>file://$MODULE_DIR$/resources/META-INF/spring/dao.xml</file>
+          <file>file://$MODULE_DIR$/webapp/WEB-INF/beans.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map>
+          <unit-entry name="resources:META-INF:hibernate.cfg.xml" value="53753c05-6c70-469b-94a2-3088b0364082" />
+          <unit-entry name="resources:hibernate.cfg.xml" value="c3ed12cd-e9b5-4758-a9a8-51281ced70b5" />
+        </datasource-map>
+        <naming-strategy-map>
+          <unit-entry name="resources:hibernate.cfg.xml" />
+        </naming-strategy-map>
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/resources/hibernate.cfg.xml" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: commons-dbcp:commons-dbcp:1.4" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-xc:1.9.13" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.12" level="project" />
+    <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:5.2.6.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-web:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" level="project" />
+  </component>
+</module>

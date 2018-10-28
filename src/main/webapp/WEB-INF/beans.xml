@@ -7,17 +7,17 @@
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
     <!-- Imported resources for cxf -->
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-    <import resource="classpath:META-INF/spring/dao.xml"/>
-
-    <context:component-scan base-package="com.cxf.test"/>
+    <context:component-scan base-package="com"/>
     <bean id="restService" class="ru.remmy.RestService">
-        <property name="usersDAO" ref="usersDAO"/>
-        <property name="tasksDAO" ref="tasksDAO"/>
+        <property name="userService" ref="serviceUser"/>
+        <property name="taskService" ref="serviceTask"/>
+        <property name="groupService" ref="serviceGroup"/>
     </bean>
 
     <bean id="jacksonMapper" class="ru.remmy.providers.CustomObjectMapper" />
+    <bean id="serviceUser" class="ru.remmy.hibernate.services.UserServices" />
+    <bean id="serviceTask" class="ru.remmy.hibernate.services.TaskServices" />
+    <bean id="serviceGroup" class="ru.remmy.hibernate.services.GroupServices" />
 
     <jaxrs:server id="restContainer" address="/">
         <jaxrs:serviceBeans>
