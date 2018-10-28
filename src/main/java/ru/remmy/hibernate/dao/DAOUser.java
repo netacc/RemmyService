@@ -1,10 +1,8 @@
 package ru.remmy.hibernate.dao;
 //https://habr.com/post/271115/
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Criteria;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.remmy.hibernate.entities.*;
 import ru.remmy.hibernate.idao.IUsersDAO;
 import ru.remmy.hibernate.utils.HibernateSessionFactoryUtil;
