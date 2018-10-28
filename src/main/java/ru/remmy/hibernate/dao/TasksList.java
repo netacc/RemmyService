@@ -5,7 +5,7 @@ import ru.remmy.hibernate.entities.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
-@XmlRootElement(name="tasks")
+@XmlRootElement(name="TasksList")
 public class TasksList extends ArrayList<Task>{
 
     public TasksList(){}

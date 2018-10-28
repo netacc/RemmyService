@@ -1,13 +1,18 @@
 package ru.remmy.hibernate.dao;
 //https://habr.com/post/271115/
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import ru.remmy.hibernate.entities.*;
 import ru.remmy.hibernate.idao.ITasksDAO;
 import ru.remmy.hibernate.utils.HibernateSessionFactoryUtil;
+import ru.remmy.security.UserDetailsImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DAOTask implements ITasksDAO {
@@ -31,8 +36,19 @@ public class DAOTask implements ITasksDAO {
     }
 
     public Task findTasksById(String id) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Task task = (Task) session.load(Task.class, Integer.parseInt(id));
+        Task task;
+        Session session = null;
+        try {
+            session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            Criteria userCriteria = session.createCriteria(Task.class);
+            userCriteria.add(Restrictions.eq("id", Integer.parseInt(id)));
+            task = (Task) userCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
+        }
         return task;
     }
 
@@ -46,23 +62,26 @@ public class DAOTask implements ITasksDAO {
 
     public void updateTasks(Task task) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.update(task);
-        tx1.commit();
+        session.saveOrUpdate(task);
         session.close();
     }
 
-    public void deleteTasksById(String id) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.delete(Integer.parseInt(id));
-        tx1.commit();
-        session.close();
+    public boolean deleteTasksById(String id) {
+        try {
+            User currentUser = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCurrentUser();
+            Session session = HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
+            Task task = new Task();
+            task.setId(Integer.parseInt(id));
+            session.delete(task);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public TasksList getTaskList() {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        TasksList all = (TasksList) session.createQuery("from Task").list();
+        TasksList all = new TasksList((ArrayList<Task>) session.createQuery("from Task").list());
         session.close();
         return new TasksList(all);
     }

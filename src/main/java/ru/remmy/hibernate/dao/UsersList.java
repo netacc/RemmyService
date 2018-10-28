@@ -5,7 +5,7 @@ import ru.remmy.hibernate.entities.User;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
-@XmlRootElement(name="users")
+@XmlRootElement(name="UsersList")
 public class UsersList extends ArrayList<User> {
 
     public UsersList(){}

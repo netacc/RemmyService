@@ -1,16 +1,18 @@
 package ru.remmy.hibernate.entities;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users", schema = "test", catalog = "")
+@Table(name = "users", schema = "test")
+@XmlRootElement(name="user")
 public class User {
     private int id;
     private String name;
     private String login;
     private String password;
-    private Short role;
+    private int role;
     private String initials;
 
     @Id
@@ -55,11 +57,11 @@ public class User {
 
     @Basic
     @Column(name = "role", nullable = true)
-    public Short getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(Short role) {
+    public void setRole(int role) {
         this.role = role;
     }
 

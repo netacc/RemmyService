@@ -11,6 +11,6 @@ public interface IUsersDAO {
         User getUsers(String id);
         User getUsersByName(String name);
         void updateUsers(User user);
-        void deleteUsersById(String id);
+        boolean deleteUsersById(String id);
         UsersList getUsersList();
 }

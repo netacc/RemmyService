@@ -59,7 +59,7 @@ public class RestService {
 
     //---------------------------------------SAVE OR UPDATE--------------------------------------
    @PUT
-   @Path("/service/updateTask/{TaskEntity}")
+   @Path("/service/updateTask/{Task}")
    @Produces(MediaType.APPLICATION_JSON)
    public Response updateTask(Task task) {
         taskService.updateTasks(task);
@@ -68,7 +68,7 @@ public class RestService {
    }
 
     @PUT
-    @Path("/service/updateUser/{UserEntity}")
+    @Path("/service/updateUser/{User}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(User user) {
         userService.updateUsers(user);

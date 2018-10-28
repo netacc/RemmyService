@@ -1,14 +1,15 @@
 package ru.remmy.hibernate.entities;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tasks", schema = "test", catalog = "")
+@Table(name = "tasks", schema = "test")
+@XmlRootElement(name="task")
 public class Task {
-    private long id;
+    private int id;
     private long doerId;
     private String doerName;
     private String header;
@@ -19,11 +20,11 @@ public class Task {
 
     @Id
     @Column(name = "id", nullable = false)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

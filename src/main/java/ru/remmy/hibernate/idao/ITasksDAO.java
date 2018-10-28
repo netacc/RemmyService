@@ -7,6 +7,6 @@ public interface ITasksDAO {
     Task findTasksById(String id);
     void createTasks(Task task);
     void updateTasks(Task task);
-    void deleteTasksById(String id);
+    boolean deleteTasksById(String id);
     TasksList getTaskList();
 }

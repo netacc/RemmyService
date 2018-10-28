@@ -2,10 +2,11 @@ package ru.remmy.hibernate.dao;
 //https://habr.com/post/271115/
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import ru.remmy.hibernate.entities.*;
 import ru.remmy.hibernate.idao.IUsersDAO;
 import ru.remmy.hibernate.utils.HibernateSessionFactoryUtil;
+import ru.remmy.security.UserDetailsImpl;
 
 import java.util.ArrayList;
 
@@ -52,9 +53,19 @@ public class DAOUser implements IUsersDAO {
     }
 
     public User getUsers(String id) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        User user = (User) session.get(User.class, id);
-        session.close();
+        User user;
+        Session session = null;
+        try {
+            session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            Criteria userCriteria = session.createCriteria(User.class);
+            userCriteria.add(Restrictions.eq("id", Integer.parseInt(id)));
+            user = (User) userCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
+        }
         return user;
     }
 
@@ -75,20 +86,21 @@ public class DAOUser implements IUsersDAO {
 
     public void updateUsers(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        Criteria userCriteria = session.createCriteria(User.class);
-        userCriteria.add(Restrictions.eq("id", user.getId()));
-        session.update(user);
-        tx1.commit();
+        session.saveOrUpdate(user);
         session.close();
     }
 
-    public void deleteUsersById(String id) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.delete(id);
-        tx1.commit();
-        session.close();
+    public boolean deleteUsersById(String id) {
+        try {
+            User currentUser = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCurrentUser();
+            Session session = HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
+            User user = new User();
+            user.setId(Integer.parseInt(id));
+            session.delete(user);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public UsersList getUsersList() {
