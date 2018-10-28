@@ -8,14 +8,15 @@
        http://www.springframework.org/schema/security/spring-security.xsd">
 
     <security:http create-session="ifRequired" auto-config="true" use-expressions="true">
-        <security:intercept-url pattern="/saveTask" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/deleteTask" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/myTasks" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/getTypes" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/getPriorities" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/tasks.jsp" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/service/userRegistration" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/service/user" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/service/task" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/service/updateTask" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/service/updateUser" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/service/deleteUser" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/service/deleteTask" access="hasRole('ROLE_USER')"/>
 
-        <security:form-login login-page="/login" default-target-url="/myTasks"
+        <security:form-login login-page="/login" default-target-url="/service/task"
                              authentication-failure-url="/login?error=true"
                              always-use-default-target="true"
                              username-parameter="j_username"
