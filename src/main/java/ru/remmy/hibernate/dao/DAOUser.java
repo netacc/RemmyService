@@ -109,4 +109,17 @@ public class DAOUser implements IUsersDAO {
         session.close();
         return list;
     }
+
+    public Long userRegistration(String name, String login, String password) {
+        if (!isExist(login)) {
+            User user = new User();
+            user.setName(name);
+            user.setLogin(login);
+            user.setPassword(password);
+            user.setRole(0);
+            return saveUser(user);
+        } else {
+            return 0L;
+        }
+    }
 }

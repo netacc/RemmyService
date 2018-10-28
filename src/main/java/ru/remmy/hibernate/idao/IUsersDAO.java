@@ -6,6 +6,7 @@ import ru.remmy.hibernate.entities.*;
 public interface IUsersDAO {
         long saveUser(User user);
         boolean isExist(String login);
+        Long userRegistration(String name, String login, String password);
         User getUser(String login);
         void createUsers(User user);
         User getUsers(String id);

@@ -27,6 +27,17 @@ public class RestService {
         return requestHeaders.getRequestHeader("version").get(0);
     }
 
+    //--------------------------------------Sequrity---------------------------------------------
+    @GET
+    @Path("/service/userRegistration/{name}, {login}, {password}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Long userRegistration(
+            @PathParam("name") String name,
+            @PathParam("login")String login,
+            @PathParam("password")String password) {
+        return userService.userRegistration(name, login, password);
+    }
+
     //--------------------------------------GET LIST---------------------------------------------
     @GET
     @Path("/service/user/")
@@ -58,7 +69,7 @@ public class RestService {
     }
 
     //---------------------------------------SAVE OR UPDATE--------------------------------------
-   @PUT
+   @GET
    @Path("/service/updateTask/{Task}")
    @Produces(MediaType.APPLICATION_JSON)
    public Response updateTask(Task task) {
@@ -67,7 +78,7 @@ public class RestService {
                 + task.getId())).build();
    }
 
-    @PUT
+    @GET
     @Path("/service/updateUser/{User}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(User user) {
@@ -77,7 +88,7 @@ public class RestService {
     }
 
     //-----------------------------------------DELETE--------------------------------------------
-    @PUT
+    @GET
     @Path("/service/deleteUser/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteUser(@PathParam("id") String id) {
@@ -85,7 +96,7 @@ public class RestService {
         return Response.created(URI.create("/service/user/")).build();
     }
 
-    @PUT
+    @GET
     @Path("/service/deleteTask/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteTask(@PathParam("id") String id) {

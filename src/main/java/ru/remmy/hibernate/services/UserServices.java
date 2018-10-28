@@ -30,4 +30,8 @@ public class UserServices {
     public UsersList getUsersList() {
         return usersDao.getUsersList();
     }
+
+    public Long userRegistration(String name, String login, String password) {
+        return usersDao.userRegistration(name, login, password);
+    }
 }
