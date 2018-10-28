@@ -1,12 +1,27 @@
 package ru.remmy;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.context.WebContext;
 import ru.remmy.hibernate.dao.TasksList;
 import ru.remmy.hibernate.dao.UsersList;
 import ru.remmy.hibernate.entities.*;
+import ru.remmy.hibernate.services.RegistrationService;
 import ru.remmy.hibernate.services.TaskServices;
 import ru.remmy.hibernate.services.UserServices;
+import ru.remmy.hibernate.utils.ThymeleafTemplateUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import java.io.IOException;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -17,8 +32,14 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 public class RestService {
 
+    @Autowired
     private UserServices userService;
+
+    @Autowired
     private TaskServices taskService;
+
+    @Autowired
+    private RegistrationService registrationService;
 
     @Context
     private HttpHeaders requestHeaders;
@@ -36,6 +57,48 @@ public class RestService {
             @PathParam("login")String login,
             @PathParam("password")String password) {
         return userService.userRegistration(name, login, password);
+    }
+
+    @Autowired
+    @Qualifier("authManager")
+    private AuthenticationManager authenticationManager;
+
+    @POST
+    @Path("/service/user/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RequestMapping(value = "registration", method = RequestMethod.POST)
+    public void registration(HttpServletRequest request, HttpServletResponse response,
+                             @RequestParam(value = "name", required = true) String name,
+                             @RequestParam(value = "login", required = true) String login,
+                             @RequestParam(value = "password", required = true) String password) {
+
+        Long id = registrationService.userRegistration(name, login, password);
+        if (id > 0) {
+            try {
+                SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password)));
+                response.sendRedirect(request.getContextPath() + "/myTasks");
+            } catch (IOException ex) {
+                return;
+            }
+        }
+        if (id == 0) {
+            try {
+                response.getOutputStream().print("This login already exist");
+            } catch (IOException ex) {
+
+            }
+        }
+    }
+
+    @RequestMapping(value = "toRegistration", method = RequestMethod.GET)
+    public void toRegistration(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            WebContext webContext = new WebContext(request, response, request.getSession().getServletContext());
+            ThymeleafTemplateUtil.getTemplateEngine().process("registration", webContext, response.getWriter());
+        } catch (Exception ex) {
+            return;
+        }
     }
 
     //--------------------------------------GET LIST---------------------------------------------
@@ -69,7 +132,7 @@ public class RestService {
     }
 
     //---------------------------------------SAVE OR UPDATE--------------------------------------
-   @GET
+   @POST
    @Path("/service/updateTask/{Task}")
    @Produces(MediaType.APPLICATION_JSON)
    public Response updateTask(Task task) {
@@ -78,7 +141,7 @@ public class RestService {
                 + task.getId())).build();
    }
 
-    @GET
+    @POST
     @Path("/service/updateUser/{User}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(User user) {
@@ -88,7 +151,7 @@ public class RestService {
     }
 
     //-----------------------------------------DELETE--------------------------------------------
-    @GET
+    @DELETE
     @Path("/service/deleteUser/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteUser(@PathParam("id") String id) {
@@ -96,27 +159,11 @@ public class RestService {
         return Response.created(URI.create("/service/user/")).build();
     }
 
-    @GET
+    @DELETE
     @Path("/service/deleteTask/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteTask(@PathParam("id") String id) {
         taskService.deleteTasks(id);
         return Response.created(URI.create("/service/task/")).build();
-    }
-
-    public void setUserService(UserServices userService) {
-       this.userService = userService;
-    }
-
-    public void setTaskService(TaskServices taskService) {
-       this.taskService = taskService;
-    }
-
-    public UserServices getUserService() {
-        return userService;
-    }
-
-    public TaskServices getTaskService() {
-        return taskService;
     }
 }
