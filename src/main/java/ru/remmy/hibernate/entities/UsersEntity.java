@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "users", schema = "remmydb", catalog = "")
 public class UsersEntity {
 
-    private int id;
+    private String id;
     private String phone_number;
     private String name;
     private String initials;
@@ -15,11 +15,11 @@ public class UsersEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

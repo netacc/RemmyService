@@ -7,6 +7,6 @@ public interface IUsersDAO {
         void createUsers(UsersEntity user);
         UsersEntity getUsers(String id);
         void updateUsers(UsersEntity user);
-        void deleteUsersById(String id);
+        void deleteUsers(UsersEntity user);
         UsersList getUsersList();
 }

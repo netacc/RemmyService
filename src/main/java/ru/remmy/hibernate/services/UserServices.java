@@ -19,8 +19,8 @@ public class UserServices {
         usersDao.createUsers(user);
     }
 
-    public void deleteUsersById(String id) {
-        usersDao.deleteUsersById(id);
+    public void deleteUsers(UsersEntity user) {
+        usersDao.deleteUsers(user);
     }
 
     public void updateUsers(UsersEntity user) {

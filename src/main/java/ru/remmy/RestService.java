@@ -58,6 +58,14 @@ public class RestService {
         return Response.ok(user, MediaType.APPLICATION_JSON).build();
     }
 
+    @DELETE
+    @Path("/service/user/delete")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteUser(UsersEntity user) {
+        userService.deleteUsers(user);
+        return Response.ok(user, MediaType.APPLICATION_JSON).build();
+    }
+
     @GET
     @Path("/service/task/{id}")
     @Produces(MediaType.APPLICATION_JSON)

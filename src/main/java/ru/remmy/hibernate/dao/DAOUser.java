@@ -30,10 +30,10 @@ public class DAOUser implements IUsersDAO {
         session.close();
     }
 
-    public void deleteUsersById(String id) {
+    public void deleteUsers(UsersEntity user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        session.delete(Integer.parseInt(id));
+        session.delete(user);
         tx1.commit();
         session.close();
     }
